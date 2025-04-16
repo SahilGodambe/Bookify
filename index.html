@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📚Bookify📚</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #E1E8F0;
+      color: #222;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #023047;
+      margin-bottom: 1.5rem;
+    }
+
+    .book-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .book {
+      background: linear-gradient(90deg, #c3d9e6, #f1f1f1);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+      width: 250px;
+      padding: 1rem;
+      text-align: left;
+      transition: transform 0.2s ease, opacity 0.3s ease;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .book.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .book:hover {
+      transform: scale(1.03);
+    }
+
+    .book img {
+      width: 100%;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .book h3 {
+      margin: 0.5rem 0 0.2rem;
+      color: #3E4E59;
+    }
+
+    .book p {
+      font-size: 0.9rem;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #023e8a;
+    }
+
+    footer {
+      margin-top: 3rem;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    .highlighted {
+      border: 2px solid #ff3e00;
+      background-color: #fff3e0;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 Books Every Bibliophile Should Read</h1>
+
+  <div class="book-grid">
+    <div class="book">
+        <img src="https://m.media-amazon.com/images/I/81xf7GKNKTL._SL1200_.jpg" alt="A Game of Thrones">
+        <h3>A Game of Thrones</h3>
+        <p><strong>Author:</strong> George R.R. Martin</p>
+        <p>An epic fantasy that follows several noble families in the battle for control of the Iron Throne in the Seven Kingdoms of Westeros.</p>
+      </div>      
+
+      <div class="book">
+        <img src="https://m.media-amazon.com/images/I/71UZKQ3-wCL._SL1500_.jpg" alt="The Hobbit">
+        <h3>The Hobbit</h3>
+        <p><strong>Author:</strong> J.R.R. Tolkien</p>
+        <p>A tale of adventure, where Bilbo Baggins, a hobbit, goes on a journey with dwarves to reclaim a stolen treasure from a dragon.</p>
+    </div>
+    
+    <div class="book">
+    <img src="https://m.media-amazon.com/images/I/416C8Pv5yRL._SY466_.jpg" alt="The Last Wish">
+        <h3>The Last Wish</h3>
+        <p><strong>Author:</strong> Andrzej Sapkowski</p>
+        <p>A collection of short stories introducing Geralt of Rivia, a monster hunter known as a Witcher, in a dark fantasy world filled with moral ambiguity and magic.</p>
+      </div>
+      
+    <div class="book">
+    <img src="https://m.media-amazon.com/images/I/81msb6gUBTL._SL1500_.jpg" alt="The Song of Achilles">
+      <h3>The Song of Achilles</h3>
+      <p><strong>Author:</strong> Madeline Miller</p>
+      <p>A poignant retelling of the Iliad, focusing on the bond between Achilles and Patroclus, with themes of love, loss, and fate.</p>
+    </div>
+
+    <div class="book">
+    <img src="https://m.media-amazon.com/images/I/71Gt0U59D3L._SL1500_.jpg" alt="The Silmarillion">
+        <h3>The Silmarillion</h3>
+        <p><strong>Author:</strong> J.R.R. Tolkien</p>
+        <p>A mythopoeic masterpiece that delves into the creation of Tolkien's world, the history of the Elves, and the origins of the great conflicts in Middle-earth.</p>
+    </div>
+      
+  </div>
+
+  <button onclick="recommendBook()">📖 Pick One for Me</button>
+  <footer>
+    <p>Made with ❤️ by Sahil Godambe • Internship Project • April 2025</p>
+  </footer>
+
+  <script>
+    const books = [
+      { name: "A Game of Thrones by George R.R. Martin", index: 0 },
+      { name: "The Hobbit by J.R.R. Tolkien", index: 1 },
+      { name: "The Wheel of Time by Robert Jordan", index: 2 },
+      { name: "The Song of Achilles by Madeline Miller", index: 3 },
+      { name: "The Fellowship of the Ring by J.R.R. Tolkien", index: 4 }
+    ];
+
+    // Scroll animation for books
+    const booksElements = document.querySelectorAll('.book');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.5 });
+
+    booksElements.forEach(book => observer.observe(book));
+
+    function recommendBook() {
+      const pick = books[Math.floor(Math.random() * books.length)]; // Pick random book
+      const selectedBook = booksElements[pick.index];
+      selectedBook.classList.add('highlighted'); // Highlight the picked book visually on the page
+      alert("You should read: 📘 " + pick.name); // Show the book name in an alert
+      setTimeout(() => {
+        selectedBook.classList.remove('highlighted');
+      }, 5000); // Highlight stays for 5 seconds
+    }
+  </script>
+</body>
+</html>
